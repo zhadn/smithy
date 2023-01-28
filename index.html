@@ -92,16 +92,22 @@
 			
 			if (gold >= apprenticeCost) {
 				document.getElementById("apprentice-button").disabled = false;
-			}
+			} else {
+				document.getElementById("apprentice-button").disabled = true;			
+			} 
 			
 			// Upgrades: Anvil
 			if (!hasUpgradedAnvil && gold >= upgradedAnvilCost) {
 				document.getElementById("anvil-button").disabled = false;
+			} else if (gold < upgradedAnvilCost) {
+				document.getElementById("anvil-button").disabled = true;	
 			}
 			
 			// Upgrades: Party
-			if (!areApprenticesHappy && apprentices >= 1 && gold > partyCost) {
+			if (!areApprenticesHappy && apprentices >= 1 && gold >= partyCost) {
 				document.getElementById("party-button").disabled = false;
+			} else if (gold < partyCost) {
+				document.getElementById("party-button").disabled = true;
 			}
 			
 			if (areApprenticesHappy) {
