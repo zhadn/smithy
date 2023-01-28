@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<title>Smithy - A Game for Idle Metallurgists</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
 	<body>
 
-		<h1>Smithy</h1>
+		<h2>Smithy</h2>
 		<p>Hello, ironworkers</p>
 
 		<div>
@@ -10,33 +14,146 @@
 			<span id="gold-display">0.00</span>
 			<span id="gold-increment"></span>
 		</div>
+		
+		<div>
+			<strong>Apprentices:</strong>
+			<span id="apprentice-display">0</span>
+			<span id="apprentice-increment"></span>
+		</div>
 
 		<div>
-			<button onClick="addGold()">Forge</button>
+			<strong>Days in Business:</strong>
+			<span id="days-display">0</span>
+		</div>
+
+		<div id="actions">
+			<div id="forge">
+				<button id="forge-button" onClick="addGold()">Forge</button>
+				<span id="forge-tip">Forge weapons and armor with your trusty anvil. Generates 1.0 Gold.</span>
+			</div>
+		</div>
+		<hr>
+		<h3>Workshop</h3>	
+		<div id="upgrades">
+			<div id="apprentice">
+				<button id="apprentice-button" disabled="true" onClick="hireApprentice()">Hire Apprentice</button>
+				<span id="apprentice-tip">Hire a basic apprentice to help you forge weapons and armor. Increases Gold production by 0.3 Gold per day and costs 0.1 Gold per day.</span>
+			</div>
+			<div id="anvil">
+				<button id="anvil-button" disabled="true" onClick="upgradeAnvil()">Repair Anvil</button>
+				<span id="anvil-tip">Repair the Anvil with 200 gold. Increases Gold production by 50%.</span>
+			</div>
+			<div id="party">
+				<button id="party-button" disabled="true" onClick="throwParty()">Throw Party</button>
+				<span id="party-tip">Throw a party for all of your apprentices. Reduces daily apprentice cost by 50% for 30 days.</span>
+			</div>
 		</div>
 	</body>
 	
 	<script>
 		
-		var GOLD_AMOUNT = 0;
-		var GOLD_CONTAINER = document.getElementById("gold-display");
+		// Displays
+		var GOLD_DISPLAY = document.getElementById("gold-display");
+		var DAYS_DISPLAY = document.getElementById("days-display");	
+		
+		// Resources + Time
+		var gold = 0.0;
+		var days = 0;
+		
+		// Upgrades
+		var goldMultiplier = 1.0
+		
+		// Upgrades: Apprentice
+		var apprentices = 0
+		var apprenticeCost = 20;
+		var apprenticeStrength = 0.3;
+		var apprenticeDailyCost = 0.1;		
+		
+		// Upgrades: Anvil	
+		var upgradedAnvilCost = 200;
+		var hasUpgradedAnvil = false;
+		
+		// Upgrades: Party
+		var partyCost = 50;
+		var apprenticeTimer = 0;
+		var areApprenticesHappy = false;
+		
+		// Interval
 		const intervalID = setInterval(updateSmithy, 1000);
 
 		function updateSmithy() {
-			if (GOLD_AMOUNT >= 20) {
-				setGold(0.3);
+			
+			DAYS_DISPLAY.innerText = days++;
+			
+			// Upgrades: Apprentice
+			if (apprentices >= 1) {
+				setGold(apprentices * apprenticeStrength);
+			}
+			
+			if (gold >= apprenticeCost) {
+				document.getElementById("apprentice-button").disabled = false;
+			}
+			
+			// Upgrades: Anvil
+			if (!hasUpgradedAnvil && gold >= upgradedAnvilCost) {
+				document.getElementById("anvil-button").disabled = false;
+			}
+			
+			// Upgrades: Party
+			if (!areApprenticesHappy && apprentices >= 1 && gold > partyCost) {
+				document.getElementById("party-button").disabled = false;
+			}
+			
+			if (areApprenticesHappy) {
+				apprenticeTimer++;
+				
+				if (apprenticeTimer > 30) {
+					apprenticeTimer = 0;
+					areApprenticesHappy = false;
+				}
 			}
 		}
 		
-		function addGold() {
-			GOLD_AMOUNT++;
-			GOLD_CONTAINER.innerText = GOLD_AMOUNT.toFixed(2);
-		}
-
 		function setGold(increment) {
-			GOLD_AMOUNT = GOLD_AMOUNT + increment;
-			GOLD_CONTAINER.innerText = GOLD_AMOUNT.toFixed(2);
-			document.getElementById("gold-increment").innerText = "+ 0.3 gold/s";
+			
+			let goldIncrease = (increment * goldMultiplier);
+			let apprenticeExpenses = !areApprenticesHappy ? (apprentices * apprenticeDailyCost) : (apprentices * (apprenticeDailyCost * 0.5));
+			goldIncrease = goldIncrease - apprenticeExpenses;
+			
+			gold = gold + goldIncrease;
+			GOLD_DISPLAY.innerText = gold.toFixed(2);
+			document.getElementById("gold-increment").innerText = "( + " + goldIncrease.toFixed(2).toString() + " Gold/d)";
+			document.getElementById("apprentice-increment").innerText = "( + " + (apprentices * apprenticeStrength).toFixed(2).toString() + " Gold/d)";
+		}
+		
+		function addGold() {
+			
+			gold++;
+			GOLD_DISPLAY.innerText = gold.toFixed(2);
+		}
+		
+		function hireApprentice() {
+
+			gold = gold - apprenticeCost;
+			apprentices++;		
+			apprenticeCost = apprenticeCost * 2;
+			document.getElementById("apprentice-display").innerText = apprentices;			
+			document.getElementById("apprentice-button").disabled = true;
+		}		
+		
+		function upgradeAnvil() {
+			
+			gold = gold - upgradedAnvilCost;			
+			hasUpgradedAnvil = true;
+			goldMultiplier = 1.5;
+			document.getElementById("anvil-button").disabled = true;
+		}
+		
+		function throwParty() {
+
+			gold = gold - partyCost;
+			areApprenticesHappy = true;
+			document.getElementById("party-button").disabled = true;
 		}
 		
 	</script>
