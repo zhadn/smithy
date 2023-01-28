@@ -1,0 +1,27 @@
+body {
+	color: #FFFFFF;
+	background-color: #121212;
+}
+
+#actions {
+	padding: 1em;
+}
+
+#upgrades {
+	padding-left: 1em;
+}
+
+#anvil, #apprentice {
+	padding-bottom: 0.5em;
+}
+
+#forge-tip, #anvil-tip, #apprentice-tip, #party-tip {
+	visibility: hidden;
+}
+
+#forge:hover > #forge-tip,
+#anvil:hover > #anvil-tip, 
+#apprentice:hover > #apprentice-tip,
+#party:hover > #party-tip {
+	visibility: visible;
+}
