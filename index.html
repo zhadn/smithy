@@ -1,9 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <body>
+	<body>
 
-    <h1>Smithy</h1>
-    <p>Hello, ironworkers</p>
+		<h1>Smithy</h1>
+		<p>Hello, ironworkers</p>
 
-  </body>
+		<div>
+			<strong>Gold:</strong>
+			<span id="gold-display">0.00</span>
+			<span id="gold-increment"></span>
+		</div>
+
+		<div>
+			<button onClick="addGold()">Forge</button>
+		</div>
+	</body>
+	
+	<script>
+		
+		var GOLD_AMOUNT = 0;
+		var GOLD_CONTAINER = document.getElementById("gold-display");
+		const intervalID = setInterval(updateSmithy, 1000);
+
+		function updateSmithy() {
+			if (GOLD_AMOUNT >= 20) {
+				setGold(0.3);
+			}
+		}
+		
+		function addGold() {
+			GOLD_AMOUNT++;
+			GOLD_CONTAINER.innerText = GOLD_AMOUNT.toFixed(2);
+		}
+
+		function setGold(increment) {
+			GOLD_AMOUNT = GOLD_AMOUNT + increment;
+			GOLD_CONTAINER.innerText = GOLD_AMOUNT.toFixed(2);
+			document.getElementById("gold-increment").innerText = "+ 0.3 gold/s";
+		}
+		
+	</script>
 </html>
