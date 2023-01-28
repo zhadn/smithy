@@ -36,15 +36,15 @@
 		<h3>Workshop</h3>	
 		<div id="upgrades">
 			<div id="apprentice">
-				<button id="apprentice-button" disabled="true" onClick="hireApprentice()">Hire Apprentice</button>
+				<button id="apprentice-button" disabled="true" onClick="hireApprentice()">Hire Apprentice (<span id="apprentice-hire-cost">20</span>G)</button>
 				<span id="apprentice-tip">Hire a basic apprentice to help you forge weapons and armor. Increases Gold production by 0.3 Gold per day and costs 0.1 Gold per day.</span>
 			</div>
 			<div id="anvil">
-				<button id="anvil-button" disabled="true" onClick="upgradeAnvil()">Repair Anvil</button>
+				<button id="anvil-button" disabled="true" onClick="upgradeAnvil()">Repair Anvil (200G)</button>
 				<span id="anvil-tip">Repair the Anvil with 200 gold. Increases Gold production by 50%.</span>
 			</div>
 			<div id="party">
-				<button id="party-button" disabled="true" onClick="throwParty()">Throw Party</button>
+				<button id="party-button" disabled="true" onClick="throwParty()">Throw Party (50G)</button>
 				<span id="party-tip">Throw a party for all of your apprentices. Reduces daily apprentice cost by 50% for 30 days.</span>
 			</div>
 		</div>
@@ -143,7 +143,8 @@
 			gold = gold - apprenticeCost;
 			apprentices++;		
 			apprenticeCost = apprenticeCost * 2;
-			document.getElementById("apprentice-display").innerText = apprentices;			
+			document.getElementById("apprentice-display").innerText = apprentices;
+			document.getElementById("apprentice-hire-cost").innerText = apprenticeCost;			
 			document.getElementById("apprentice-button").disabled = true;
 		}		
 		
