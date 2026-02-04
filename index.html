@@ -12,6 +12,7 @@
 		<div>
 			<strong>Gold:</strong>
 			<span id="gold-display">0.00</span>
+			<span id="coffer-capacity">/ 500.00</span>
 			<span id="gold-increment"></span>
 		</div>
 		
@@ -42,6 +43,10 @@
 			<div id="anvil">
 				<button id="anvil-button" disabled="true" onClick="upgradeAnvil()">Repair Anvil (200G)</button>
 				<span id="anvil-tip">Repair the Anvil with 200 gold. Increases Gold production by 50%.</span>
+			</div>
+			<div id="coffer">
+				<button id="coffer-button" disabled="true" onClick="upgradeCoffer()">Upgrade Coffer (300G)</button>
+				<span id="coffer-tip">Expand the size of your storage with 300 gold. Increases maximum Gold capacity to 1000.</span>
 			</div>
 			<div id="party">
 				<button id="party-button" disabled="true" onClick="throwParty()">Throw Party (50G)</button>
@@ -111,6 +116,10 @@
 		var upgradedAnvilCost = 200;
 		var hasUpgradedAnvil = false;
 		
+		// Upgrades: Coffer
+		var upgradedCofferCost = 300;
+		var hasUpgradedCoffer = false;
+		
 		// Upgrades: Party
 		var partyCost = 50;
 		var apprenticeTimer = 0;
@@ -152,6 +161,13 @@
 				document.getElementById("anvil-button").disabled = false;
 			} else if (gold < upgradedAnvilCost) {
 				document.getElementById("anvil-button").disabled = true;	
+			}
+			
+			// Upgrades: Coffer
+			if (!hasUpgradedCoffer && gold >= upgradedCofferCost) {
+				document.getElementById("coffer-button").disabled = false;
+			} else if (gold < upgradedAnvilCost) {
+				document.getElementById("coffer-button").disabled = true;	
 			}
 			
 			// Upgrades: Party
@@ -198,11 +214,12 @@
 			} else {
 				document.getElementById("cuirass-button").disabled = true;			
 			} 
+			
 			// Inventory
 			if (inventory.length == 0) {
 				document.getElementById('inventory-contents').innerHTML = "Forge weapons or armour to create surplus inventory.";
 			} else {
-				document.getElementById('inventory-contents').innerHTML = inventory.toString();
+				document.getElementById('inventory-contents').innerHTML = inventory.join(' ').toString();
 			}
 
 			if (areApprenticesHappy) {
@@ -222,9 +239,26 @@
 			goldIncrease = goldIncrease - apprenticeExpenses;
 			
 			gold = gold + goldIncrease;
+			
+			if (!hasUpgradedCoffer) {
+				if (gold >= 500) { 
+					gold = 500;
+					document.getElementById("forge-button").disabled = true;
+				} else {
+					document.getElementById("forge-button").disabled = false;
+				}
+			} else if (gold >= 1000) {
+				gold = 1000;
+				document.getElementById("forge-button").disabled = true;
+			} else {
+				document.getElementById("forge-button").disabled = false;
+			}
+			
 			GOLD_DISPLAY.innerText = gold.toFixed(2);
+			
 			document.getElementById("gold-increment").innerText = "( + " + goldIncrease.toFixed(2).toString() + " Gold/d)";
 			document.getElementById("apprentice-increment").innerText = "( + " + (apprentices * apprenticeStrength).toFixed(2).toString() + " Gold/d)";
+			
 		}
 		
 		function addGold() {
@@ -248,8 +282,18 @@
 			gold = gold - upgradedAnvilCost;			
 			hasUpgradedAnvil = true;
 			goldMultiplier = 1.5;
+			document.getElementById("anvil-button").innerHTML = "Anvil upgraded!";
 			document.getElementById("anvil-button").disabled = true;
 		}
+		
+		function upgradeCoffer() {
+			
+			gold = gold - upgradedCofferCost;			
+			hasUpgradedCoffer = true;
+			document.getElementById("coffer-capacity").innerHTML = "/ 1000.00";
+			document.getElementById("coffer-button").innerHTML = "Coffer upgraded!";
+			document.getElementById("coffer-button").disabled = true;
+		}		
 		
 		function throwParty() {
 

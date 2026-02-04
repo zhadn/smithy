@@ -11,7 +11,7 @@ body {
 	padding-left: 1em;
 }
 
-#anvil, #apprentice {
+#apprentice, #anvil, #coffer  {
 	padding-bottom: 0.5em;
 }
 
@@ -23,7 +23,7 @@ body {
 	padding-bottom: 0.5em;
 }
 
-#forge-tip, #anvil-tip, #apprentice-tip, #party-tip {
+#forge-tip, #anvil-tip, #apprentice-tip, #coffer-tip, #party-tip {
 	visibility: hidden;
 }
 
@@ -37,6 +37,7 @@ body {
 
 #forge:hover > #forge-tip,
 #anvil:hover > #anvil-tip, 
+#coffer:hover > #coffer-tip, 
 #apprentice:hover > #apprentice-tip,
 #party:hover > #party-tip,
 #broadsword:hover > #broadsword-tip, 
