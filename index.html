@@ -30,7 +30,7 @@
 		<div id="actions">
 			<div id="forge">
 				<button id="forge-button" onClick="addGold()">Forge</button>
-				<span id="forge-tip">Forge weapons and armor with your trusty anvil. Generates 1.0 Gold.</span>
+				<span id="forge-tip">Forge weapons and armour with your trusty anvil. Generates 1.0 Gold.</span>
 			</div>
 		</div>
 		<hr>
@@ -38,7 +38,7 @@
 		<div id="upgrades">
 			<div id="apprentice">
 				<button id="apprentice-button" disabled="true" onClick="hireApprentice()">Hire Apprentice (<span id="apprentice-hire-cost">20</span>G)</button>
-				<span id="apprentice-tip">Hire a basic apprentice to help you forge weapons and armor. Increases Gold production by 0.3 Gold per day and costs 0.1 Gold per day.</span>
+				<span id="apprentice-tip">Hire a basic apprentice to help you forge weapons and armour. Increases Gold production by 1.5 Gold per day and costs 0.1 Gold per day.</span>
 			</div>
 			<div id="anvil">
 				<button id="anvil-button" disabled="true" onClick="upgradeAnvil()">Repair Anvil (200G)</button>
@@ -109,7 +109,7 @@
 		// Upgrades: Apprentice
 		var apprentices = 0
 		var apprenticeCost = 20;
-		var apprenticeStrength = 0.3;
+		var apprenticeStrength = 1.5;
 		var apprenticeDailyCost = 0.1;		
 		
 		// Upgrades: Anvil	
