@@ -7,7 +7,7 @@
 	<body>
 
 		<h2>Smithy</h2>
-		<p>Hello, ironworkers</p>
+		<p>Hello, Ironworkers</p>
 
 		<div>
 			<strong>Gold:</strong>
@@ -48,6 +48,44 @@
 				<span id="party-tip">Throw a party for all of your apprentices. Reduces daily apprentice cost by 50% for 30 days.</span>
 			</div>
 		</div>
+		<hr>
+		<h3>Forge Weapons</h3>	
+			<div id="weapons">
+				<div id="broadsword">
+					<button id="broadsword-button" disabled="true" onClick="forgeBroadsword()">Forge Broadsword (<span id="broadsword-cost">300</span>G)</button>
+					<span id="broadsword-tip">Forge a simple broadsword. Forged goods moves to inventory upon completion. </span>
+				</div>
+				<div id="halberd">
+					<button id="halberd-button" disabled="true" onClick="forgeHalberd()">Forge Halberd (<span id="halberd-cost">400</span>G)</button>
+					<span id="halberd-tip">Forge a simple halberd. Forged goods moves to inventory upon completion. </span>
+				</div>
+				<div id="chakram">
+					<button id="chakram-button" disabled="true" onClick="forgeChakram()">Forge Chakram (<span id="chakram-cost">500</span>G)</button>
+					<span id="chakram-tip">Forge a brass chakram. Forged goods moves to inventory upon completion. </span>
+				</div>	
+			</div>
+		<hr>
+		<h3>Forge Armour</h3>	
+			<div id="armour">
+				<div id="shield">
+					<button id="shield-button" disabled="true" onClick="forgeShield()">Forge Shield (<span id="shield-cost">200</span>G)</button>
+					<span id="shield-tip">Forge a simple shield. Forged goods moves to inventory upon completion. </span>
+				</div>
+				<div id="gauntlets">
+					<button id="gauntlets-button" disabled="true" onClick="forgeGauntlets()">Forge Gauntlets (<span id="gauntlets-cost">600</span>G)</button>
+					<span id="gauntlets-tip">Forge a pair of steel gauntlets. Forged goods moves to inventory upon completion. </span>
+				</div>
+				<div id="cuirass">
+					<button id="cuirass-button" disabled="true" onClick="forgeCuirass()">Forge Cuirass (<span id="cuirass-cost">1000</span>G)</button>
+					<span id="cuirass-tip">Forge an iron cuirass. Forged goods moves to inventory upon completion. </span>
+				</div>	
+			</div>
+		<hr>
+		<h3>Inventory</h3>	
+			<div id="inventory">
+				<p id="inventory-contents">Forge weapons or armour to create surplus inventory.</p>
+			</div>
+		<hr>
 	</body>
 	
 	<script>
@@ -78,6 +116,19 @@
 		var apprenticeTimer = 0;
 		var areApprenticesHappy = false;
 		
+		// Weapons: Forge Costs
+		var broadswordCost = 300;
+		var halberdCost = 400;
+		var chakramCost = 500;
+
+		// Armour: Forge Costs
+		var shieldCost = 200;
+		var gauntletsCost = 600;
+		var cuirassCost = 1000;
+				
+		// Inventory
+		var inventory = [];
+				
 		// Interval
 		const intervalID = setInterval(updateSmithy, 1000);
 
@@ -110,6 +161,50 @@
 				document.getElementById("party-button").disabled = true;
 			}
 			
+			// Weapons
+			if (gold >= broadswordCost) {
+				document.getElementById("broadsword-button").disabled = false;
+			} else {
+				document.getElementById("broadsword-button").disabled = true;			
+			} 
+			
+			if (gold >= halberdCost) {
+				document.getElementById("halberd-button").disabled = false;
+			} else {
+				document.getElementById("halberd-button").disabled = true;			
+			} 
+			
+			if (gold >= chakramCost) {
+				document.getElementById("chakram-button").disabled = false;
+			} else {
+				document.getElementById("chakram-button").disabled = true;			
+			} 
+			
+			// Armour
+			if (gold >= shieldCost) {
+				document.getElementById("shield-button").disabled = false;
+			} else {
+				document.getElementById("shield-button").disabled = true;			
+			} 
+			
+			if (gold >= gauntletsCost) {
+				document.getElementById("gauntlets-button").disabled = false;
+			} else {
+				document.getElementById("gauntlets-button").disabled = true;			
+			} 
+			
+			if (gold >= cuirassCost) {
+				document.getElementById("cuirass-button").disabled = false;
+			} else {
+				document.getElementById("cuirass-button").disabled = true;			
+			} 
+			// Inventory
+			if (inventory.length == 0) {
+				document.getElementById('inventory-contents').innerHTML = "Forge weapons or armour to create surplus inventory.";
+			} else {
+				document.getElementById('inventory-contents').innerHTML = inventory.toString();
+			}
+
 			if (areApprenticesHappy) {
 				apprenticeTimer++;
 				
@@ -163,5 +258,41 @@
 			document.getElementById("party-button").disabled = true;
 		}
 		
+		function forgeBroadsword() {
+
+			gold = gold - broadswordCost;
+			inventory.push("Broadsword");
+		}
+		
+		function forgeHalberd() {
+
+			gold = gold - halberdCost;
+			inventory.push("Halberd");
+		}
+		
+		function forgeChakram() {
+
+			gold = gold - chakramCost;
+			inventory.push("Chakram");
+		}
+		
+		function forgeShield() {
+
+			gold = gold - shieldCost;
+			inventory.push("Shield");
+		}
+		
+		function forgeGauntlets() {
+		
+			gold = gold - gauntletsCost;
+			inventory.push("Gauntlets");
+		}
+		
+		function forgeCuirass() {
+
+			gold = gold - cuirassCost;
+			inventory.push("Cuirass");
+		}
+				
 	</script>
 </html>

@@ -7,7 +7,7 @@ body {
 	padding: 1em;
 }
 
-#upgrades {
+#upgrades, #weapons, #armour, #inventory {
 	padding-left: 1em;
 }
 
@@ -15,13 +15,35 @@ body {
 	padding-bottom: 0.5em;
 }
 
+#broadsword, #halberd {
+	padding-bottom: 0.5em;
+}
+
+#shield, #gauntlets {
+	padding-bottom: 0.5em;
+}
+
 #forge-tip, #anvil-tip, #apprentice-tip, #party-tip {
+	visibility: hidden;
+}
+
+#broadsword-tip, #halberd-tip, #chakram-tip {
+	visibility: hidden;
+}
+
+#shield-tip, #gauntlets-tip, #cuirass-tip {
 	visibility: hidden;
 }
 
 #forge:hover > #forge-tip,
 #anvil:hover > #anvil-tip, 
 #apprentice:hover > #apprentice-tip,
-#party:hover > #party-tip {
+#party:hover > #party-tip,
+#broadsword:hover > #broadsword-tip, 
+#halberd:hover > #halberd-tip,
+#chakram:hover > #chakram-tip,
+#shield:hover > #shield-tip,
+#gauntlets:hover > #gauntlets-tip,
+#cuirass:hover > #cuirass-tip {
 	visibility: visible;
 }
