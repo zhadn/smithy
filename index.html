@@ -7,7 +7,7 @@
 	<body>
 
 		<h2>Smithy</h2>
-		<p>Hello, Ironworkers</p>
+		<p id="blacksmith-status">Hello, Ironworker</p>
 
 		<div>
 			<strong>Gold:</strong>
@@ -91,6 +91,22 @@
 				<p id="inventory-contents">Forge weapons or armour to create surplus inventory.</p>
 			</div>
 		<hr>
+		<h3>Accomplishments</h3>	
+			<div id="accomplishments">
+				<p id="accomplishment-message">Play the game to unlock accomplishments! Find all the accomplishments to become a Master Smith.</p>
+				<p id="accomplishment-one">???</p>
+				<p id="accomplishment-two">???</p>
+				<p id="accomplishment-three">???</p>
+				<p id="accomplishment-four">???</p>
+				<p id="accomplishment-five">???</p>
+				<p id="accomplishment-six">???</p>
+				<p id="accomplishment-seven">???</p>
+				<p id="accomplishment-eight">???</p>
+				<p id="accomplishment-nine">???</p>
+				<p id="accomplishment-ten">???</p>
+
+			</div>
+		<hr>
 	</body>
 	
 	<script>
@@ -113,6 +129,7 @@
 		var apprenticeDailyCost = 0.1;		
 		
 		// Upgrades: Anvil	
+		var forges = 0;
 		var upgradedAnvilCost = 200;
 		var hasUpgradedAnvil = false;
 		
@@ -124,7 +141,8 @@
 		var partyCost = 50;
 		var apprenticeTimer = 0;
 		var areApprenticesHappy = false;
-		
+		var parties = 0;
+
 		// Weapons: Forge Costs
 		var broadswordCost = 300;
 		var halberdCost = 400;
@@ -137,6 +155,19 @@
 				
 		// Inventory
 		var inventory = [];
+		var completeInventory = ["Broadsword", "Halberd", "Chakram", "Shield", "Gauntlets", "Cuirass"]
+
+		// Accomplishments
+		var hasAccomplishmentOne = false;
+		var hasAccomplishmentTwo = false;
+		var hasAccomplishmentThree = false;
+		var hasAccomplishmentFour = false;
+		var hasAccomplishmentFive = false;
+		var hasAccomplishmentSix = false;
+		var hasAccomplishmentSeven = false;
+		var hasAccomplishmentEight = false;
+		var hasAccomplishmentNine = false;
+		var hasAccomplishmentTen = false;
 				
 		// Interval
 		const intervalID = setInterval(updateSmithy, 1000);
@@ -149,12 +180,20 @@
 			if (apprentices >= 1) {
 				setGold(apprentices * apprenticeStrength);
 			}
-			
-			if (gold >= apprenticeCost) {
-				document.getElementById("apprentice-button").disabled = false;
-			} else {
+		
+			if (apprentices < 6) {
+				if (gold >= apprenticeCost) {
+					document.getElementById("apprentice-button").disabled = false;
+				} else {
+					document.getElementById("apprentice-button").disabled = true;			
+				} 
+			} else if (apprentices >= 6) {
 				document.getElementById("apprentice-button").disabled = true;			
-			} 
+				document.getElementById("apprentice-button").innerHTML = "All apprentices hired!";
+				document.getElementById('accomplishment-six').innerHTML = "<b>Council of Six:</b> All apprentices have been hired. Go, Apprentice Family! Go!";
+				hasAccomplishmentSix = true;
+
+			}
 			
 			// Upgrades: Anvil
 			if (!hasUpgradedAnvil && gold >= upgradedAnvilCost) {
@@ -221,6 +260,41 @@
 			} else {
 				document.getElementById('inventory-contents').innerHTML = inventory.join(' ').toString();
 			}
+			
+			// Accomplishments
+			if (hasUpgradedAnvil && hasUpgradedCoffer) { 
+				document.getElementById('accomplishment-two').innerHTML = "<b>Stake Your Claim:</b> You've purchased all of the upgrades in the game!";
+				hasAccomplishmentTwo = true;
+			}
+			
+			if (days >= 777) { 
+				document.getElementById('accomplishment-seven').innerHTML = "<b>Lucky Forge:</b> You've been in business for 777 days!";
+				hasAccomplishmentSeven = true;
+			}
+			
+			if (inventory.includes("Cuirass")) { 
+				document.getElementById('accomplishment-nine').innerHTML = "<b>Curious Cuirass:</b> You've forged the most expensive item in the game!";
+				hasAccomplishmentNine = true;
+			}
+			
+			let inventoryChecker = (array, target) => target.every(element => array.includes(element));
+			if (inventoryChecker(inventory, completeInventory)) { 
+				document.getElementById('accomplishment-ten').innerHTML = "<b>Forged in Fire:</b> You've forged every item in the game!";
+				hasAccomplishmentTen = true;
+			}
+			
+			if (hasAccomplishmentOne
+			&& hasAccomplishmentTwo
+			&& hasAccomplishmentThree
+			&& hasAccomplishmentFour
+			&& hasAccomplishmentFive
+			&& hasAccomplishmentSix
+			&& hasAccomplishmentSeven
+			&& hasAccomplishmentEight
+			&& hasAccomplishmentNine
+			&& hasAccomplishmentTen) {
+				document.getElementById('blacksmith-status').innerHTML = "Hello, Master Smith (Congratulations on completing Smithy!)";
+			}			
 
 			if (areApprenticesHappy) {
 				apprenticeTimer++;
@@ -265,6 +339,24 @@
 			
 			gold++;
 			GOLD_DISPLAY.innerText = gold.toFixed(2);
+			
+			forges++;
+			
+			if (forges >= 50) {
+				document.getElementById("accomplishment-one").innerHTML = "<b>Strike the Iron:</b> 50 Forges for 50 Gold. Congratulations for clicking a button!";
+				hasAccomplishmentOne = true;
+			}
+			
+			if (forges >= 250) {
+				document.getElementById("accomplishment-five").innerHTML = "<b>The Great Clicker:</b> 250 Forges for... 250 Gold. Why did you keep clicking for such a terrible deal?";
+				hasAccomplishmentFive = true;
+			}
+			
+			if (forges >= 500) {
+				document.getElementById("accomplishment-eight").innerHTML = "<b>Greatest Clicker of All Time:</b> You are the GOAT of clicking a button. This is the final clicking accomplishment.";
+				hasAccomplishmentEight = true;
+			}
+			
 		}
 		
 		function hireApprentice() {
@@ -300,6 +392,18 @@
 			gold = gold - partyCost;
 			areApprenticesHappy = true;
 			document.getElementById("party-button").disabled = true;
+			
+			parties++;
+			
+			if (parties >= 3) {
+				document.getElementById("accomplishment-three").innerHTML = "<b>Great boss!</b> Thank you for throwing so many parties!";
+				hasAccomplishmentThree = true;
+			}
+			
+			if (parties >= 5) {
+				document.getElementById("accomplishment-four").innerHTML = "<b>World's Greatest boss!</b> NO ONE tells you when not to have a party! Parties will and do happen all the time. This is the final party accomplishment.";
+				hasAccomplishmentFour = true;	
+			}
 		}
 		
 		function forgeBroadsword() {

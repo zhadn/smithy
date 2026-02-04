@@ -7,8 +7,14 @@ body {
 	padding: 1em;
 }
 
-#upgrades, #weapons, #armour, #inventory {
+#upgrades, #weapons, #armour, #inventory, #accomplishments {
 	padding-left: 1em;
+}
+
+#accomplishment-one, #accomplishment-two, #accomplishment-three,
+#accomplishment-four, #accomplishment-five, #accomplishment-six,
+#accomplishment-seven, #accomplishment-eight, #accomplishment-nine, #accomplishment-ten {
+	padding-left: 1.5em;
 }
 
 #apprentice, #anvil, #coffer {
